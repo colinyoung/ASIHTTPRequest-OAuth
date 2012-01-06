@@ -13,8 +13,8 @@ void randomString(char *str, int chars) {
     int max = strlen(alphanumeric);
     
     int i = 0;
-    for (; i < chars+1; i++) {
-        u_int32_t j = arc4random() % max;
+    for (; i < chars; i++) {
+        u_int32_t j = arc4random() % (max-1);
         str[i] = alphanumeric[j];
     }
     str[i+1] = '\0';

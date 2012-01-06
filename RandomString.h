@@ -2,8 +2,8 @@
 // WTFPL License
 // http://sam.zoy.org/wtfpl/
 
-#ifndef cloudbot_ios_RandomString_h
-#define cloudbot_ios_RandomString_h
+#ifndef RandomString_h
+#define RandomString_h 1
 
 void randomString(char *str, int chars);
 
