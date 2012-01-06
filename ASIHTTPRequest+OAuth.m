@@ -28,17 +28,30 @@
 @implementation ASIHTTPRequest (OAuth)
 
 -(void)oauthifyWithConsumerKey:(NSString *)consumerKey
-                         token:(NSString *)token
+                consumerSecret:(NSString *)consumerSecret
+                   accessToken:(NSString *)accessToken
+             accessTokenSecret:(NSString *)accessTokenSecret
                signatureMethod:(ASIHTTPRequestOAuthSignatureMethod)signatureMethod
                        version:(NSString *)version {
     
     NSMutableDictionary *HTTPAuthorization = [NSMutableDictionary dictionaryWithCapacity:4];
     [HTTPAuthorization setObject:consumerKey forKey:@"oauth_consumer_key"];
-    if (token) [HTTPAuthorization setObject:token forKey:@"oauth_token"];
+    if (accessToken) [HTTPAuthorization setObject:accessToken forKey:@"oauth_token"];
     [HTTPAuthorization setObject:[[self class] stringForSignatureMethod:signatureMethod] forKey:@"oauth_signature_method"];
     [HTTPAuthorization setObject:[NSString stringWithFormat:@"%.0f", [[NSDate date] timeIntervalSince1970]] forKey:@"oauth_timestamp"];
+    [HTTPAuthorization setObject:accessToken forKey:@"oauth_token"];
     [HTTPAuthorization setObject:[[self class] nonce:kDefaultNonceLength] forKey:@"oauth_nonce"];
     if (version) [HTTPAuthorization setObject:version forKey:@"oauth_version"];
+    
+    if (!TTIsStringWithAnyText([self requestMethod])) [self setRequestMethod:@"GET"];
+    
+    [HTTPAuthorization setObject:[[self class] signatureStringWithURL:[self url]
+                                                           httpMethod:[self requestMethod]
+                                                      signatureMethod:signatureMethod
+                                                          accessToken:accessToken
+                                                          tokenSecret:accessTokenSecret                                  
+                                                       consumerSecret:consumerSecret
+                                                    requestParameters:HTTPAuthorization] forKey:@"oauth_signature"];
     
     // Doing this inline so this lib doesn't have any dependencies
     NSMutableString *HTTPAuthorizationString = [NSMutableString string];
