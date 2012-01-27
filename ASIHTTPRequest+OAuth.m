@@ -63,7 +63,7 @@
         if (i < [[HTTPAuthorization allKeys] count]) [HTTPAuthorizationString appendString:@"&"];
     }
     
-    [self addRequestHeader:@"HTTP_AUTHORIZATION" value:HTTPAuthorizationString];
+    [self addRequestHeader:@"Authorization" value:HTTPAuthorizationString];
 }
 
 #pragma mark - Private
