@@ -103,9 +103,9 @@
     
     id <OASignatureProviding> provider = nil;
     if (signatureMethod == TTURLRequestOAuthSignatureMethodHMAC) {
-        provider = [[OAHMAC_SHA1SignatureProvider alloc] init];
+        provider = [[[OAHMAC_SHA1SignatureProvider alloc] init] autorelease];
     } else {
-        provider = [[OAPlaintextSignatureProvider alloc] init];
+        provider = [[[OAPlaintextSignatureProvider alloc] init] autorelease];
     }  
     
     NSString *signature = [provider signClearText:[[self class] signatureBaseStringWithURL:URL
