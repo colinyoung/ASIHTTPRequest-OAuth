@@ -39,7 +39,6 @@
     if (accessToken) [HTTPAuthorization setObject:accessToken forKey:@"oauth_token"];
     [HTTPAuthorization setObject:[[self class] stringForSignatureMethod:signatureMethod] forKey:@"oauth_signature_method"];
     [HTTPAuthorization setObject:[NSString stringWithFormat:@"%.0f", [[NSDate date] timeIntervalSince1970]] forKey:@"oauth_timestamp"];
-    [HTTPAuthorization setObject:accessToken forKey:@"oauth_token"];
     [HTTPAuthorization setObject:[[self class] nonce:kDefaultNonceLength] forKey:@"oauth_nonce"];
     if (version) [HTTPAuthorization setObject:version forKey:@"oauth_version"];
     
